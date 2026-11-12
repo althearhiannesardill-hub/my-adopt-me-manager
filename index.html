@@ -1,0 +1,2004 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Adopt Me Trade Manager</title>
+
+<style>
+:root {
+    --pink: #e879aa;
+    --dark-pink: #c64d87;
+    --light-pink: #fff0f6;
+    --pale: #fff8fb;
+    --white: #ffffff;
+    --text: #57384a;
+    --muted: #987b8c;
+    --green: #239b70;
+    --red: #df5d70;
+    --border: #f2dce7;
+    --shadow: 0 5px 20px rgba(184, 102, 143, .09);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background: #fff7fa;
+    color: var(--text);
+    min-height: 100vh;
+}
+
+button, input, select {
+    font: inherit;
+}
+
+button {
+    cursor: pointer;
+}
+
+.app {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* SIDEBAR */
+
+.sidebar {
+    width: 245px;
+    background: white;
+    border-right: 1px solid var(--border);
+    padding: 25px 16px;
+    position: fixed;
+    height: 100vh;
+    z-index: 10;
+}
+
+.logo {
+    font-size: 19px;
+    font-weight: bold;
+    color: var(--dark-pink);
+    padding: 8px 10px 30px;
+    line-height: 1.5;
+}
+
+.logo span {
+    display: block;
+    font-size: 11px;
+    font-weight: normal;
+    color: var(--muted);
+    letter-spacing: 2px;
+}
+
+.nav-title {
+    color: #b99aaa;
+    font-size: 10px;
+    font-weight: bold;
+    letter-spacing: 1.5px;
+    padding: 12px;
+}
+
+.nav-btn {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    padding: 13px;
+    border: none;
+    border-radius: 10px;
+    background: transparent;
+    color: var(--muted);
+    text-align: left;
+    margin-bottom: 5px;
+    transition: .2s;
+}
+
+.nav-btn:hover, .nav-btn.active {
+    background: var(--light-pink);
+    color: var(--dark-pink);
+    font-weight: bold;
+}
+
+.nav-icon {
+    font-size: 18px;
+    width: 23px;
+    text-align: center;
+}
+
+.sidebar-bottom {
+    position: absolute;
+    bottom: 25px;
+    left: 20px;
+    right: 20px;
+    background: var(--light-pink);
+    border-radius: 12px;
+    padding: 15px;
+    font-size: 12px;
+    color: var(--dark-pink);
+    line-height: 1.6;
+}
+
+/* MAIN */
+
+.main {
+    margin-left: 245px;
+    width: calc(100% - 245px);
+    padding: 30px;
+    max-width: 1600px;
+}
+
+.topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.topbar h1 {
+    font-size: 25px;
+}
+
+.topbar p {
+    color: var(--muted);
+    font-size: 13px;
+    margin-top: 6px;
+}
+
+.date-label {
+    color: var(--dark-pink);
+    background: white;
+    padding: 12px 16px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    font-size: 12px;
+}
+
+/* BUTTONS */
+
+.primary-btn {
+    background: var(--pink);
+    color: white;
+    border: none;
+    padding: 12px 17px;
+    border-radius: 9px;
+    font-weight: bold;
+}
+
+.primary-btn:hover {
+    background: var(--dark-pink);
+}
+
+.secondary-btn {
+    background: white;
+    color: var(--dark-pink);
+    border: 1px solid var(--border);
+    padding: 10px 14px;
+    border-radius: 8px;
+}
+
+.danger-btn {
+    background: #fff0f0;
+    color: var(--red);
+    border: none;
+    padding: 8px 11px;
+    border-radius: 7px;
+}
+
+/* PAGES */
+
+.page {
+    display: none;
+}
+
+.page.active {
+    display: block;
+}
+
+.page-heading {
+    margin-bottom: 20px;
+}
+
+.page-heading h2 {
+    font-size: 21px;
+}
+
+.page-heading p {
+    color: var(--muted);
+    font-size: 13px;
+    margin-top: 6px;
+}
+
+/* CARDS */
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-bottom: 22px;
+}
+
+.stat-card {
+    background: white;
+    padding: 21px;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    box-shadow: var(--shadow);
+}
+
+.stat-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--muted);
+    font-size: 12px;
+}
+
+.stat-icon {
+    background: var(--light-pink);
+    padding: 9px;
+    border-radius: 9px;
+    font-size: 18px;
+}
+
+.stat-card h2 {
+    font-size: 24px;
+    margin-top: 16px;
+    color: var(--text);
+    overflow-wrap: anywhere;
+}
+
+.stat-card small {
+    display: block;
+    color: var(--muted);
+    margin-top: 7px;
+    font-size: 11px;
+}
+
+.green {
+    color: var(--green) !important;
+}
+
+.red {
+    color: var(--red) !important;
+}
+
+/* PANELS */
+
+.panel {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 22px;
+    margin-bottom: 22px;
+    box-shadow: var(--shadow);
+}
+
+.panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.panel-header h3 {
+    font-size: 16px;
+}
+
+/* TABLES */
+
+.table-wrap {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 620px;
+    font-size: 12px;
+}
+
+th {
+    background: #fff3f8;
+    color: #9b6c83;
+    text-align: left;
+    padding: 14px 12px;
+    font-size: 11px;
+}
+
+td {
+    padding: 14px 12px;
+    border-bottom: 1px solid #f7eaf0;
+}
+
+tr:last-child td {
+    border-bottom: none;
+}
+
+.item-name {
+    font-weight: bold;
+}
+
+.item-sub {
+    color: var(--muted);
+    font-size: 10px;
+    margin-top: 4px;
+}
+
+.badge {
+    display: inline-block;
+    padding: 6px 9px;
+    border-radius: 20px;
+    font-size: 10px;
+    font-weight: bold;
+}
+
+.badge-buy {
+    background: #fff0d9;
+    color: #b27b26;
+}
+
+.badge-sell {
+    background: #e4f8ef;
+    color: #25845d;
+}
+
+.badge-trade {
+    background: #f0e8ff;
+    color: #8059b5;
+}
+
+.badge-holding {
+    background: #fff0f6;
+    color: #bd5488;
+}
+
+.empty {
+    text-align: center;
+    padding: 30px;
+    color: var(--muted);
+    font-size: 13px;
+}
+
+/* FORMS */
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+}
+
+.form-group {
+    margin-bottom: 14px;
+}
+
+.form-group.full {
+    grid-column: 1 / -1;
+}
+
+.form-group label {
+    display: block;
+    font-size: 12px;
+    font-weight: bold;
+    margin-bottom: 7px;
+}
+
+.form-group input, .form-group select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    outline: none;
+    background: white;
+    color: var(--text);
+}
+
+.form-group input:focus, .form-group select:focus {
+    border-color: var(--pink);
+}
+
+.form-note {
+    color: var(--muted);
+    font-size: 11px;
+    margin-top: 5px;
+    line-height: 1.5;
+}
+
+/* REPORTS */
+
+.report-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 9px;
+    margin-bottom: 20px;
+}
+
+.filter-btn {
+    background: white;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    border-radius: 8px;
+    padding: 10px 17px;
+    font-size: 12px;
+}
+
+.filter-btn.active {
+    background: var(--pink);
+    border-color: var(--pink);
+    color: white;
+}
+
+.report-bars {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    margin-top: 20px;
+}
+
+.bar-row {
+    display: grid;
+    grid-template-columns: 90px 1fr 110px;
+    gap: 12px;
+    align-items: center;
+    font-size: 11px;
+}
+
+.bar-track {
+    background: #fceaf2;
+    height: 13px;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.bar-fill {
+    background: linear-gradient(90deg, #f2a6c8, #d85b96);
+    height: 100%;
+    border-radius: 20px;
+}
+
+.bar-value {
+    text-align: right;
+    font-weight: bold;
+}
+
+/* INVENTORY */
+
+.inventory-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+    gap: 15px;
+}
+
+.inventory-card {
+    background: white;
+    padding: 18px;
+    border: 1px solid var(--border);
+    border-radius: 13px;
+}
+
+.inventory-card .pet-icon {
+    font-size: 28px;
+    background: var(--light-pink);
+    display: inline-flex;
+    width: 48px;
+    height: 48px;
+    justify-content: center;
+    align-items: center;
+    border-radius: 12px;
+    margin-bottom: 12px;
+}
+
+.inventory-card h3 {
+    font-size: 14px;
+    margin-bottom: 7px;
+}
+
+.inventory-card p {
+    font-size: 11px;
+    color: var(--muted);
+    margin-bottom: 5px;
+}
+
+/* MOBILE */
+
+.mobile-menu {
+    display: none;
+    background: white;
+    border: 1px solid var(--border);
+    padding: 9px 12px;
+    border-radius: 8px;
+}
+
+.toast {
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    background: #75445b;
+    color: white;
+    padding: 14px 20px;
+    border-radius: 10px;
+    font-size: 13px;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: .3s;
+    pointer-events: none;
+    z-index: 100;
+}
+
+.toast.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+@media(max-width: 1000px) {
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media(max-width: 700px) {
+    .sidebar {
+        display: none;
+        width: 245px;
+    }
+
+    .sidebar.open {
+        display: block;
+        box-shadow: 5px 0 30px #0002;
+    }
+
+    .main {
+        margin-left: 0;
+        width: 100%;
+        padding: 17px;
+    }
+
+    .mobile-menu {
+        display: block;
+    }
+
+    .topbar {
+        align-items: flex-start;
+    }
+
+    .topbar h1 {
+        font-size: 20px;
+    }
+
+    .date-label {
+        display: none;
+    }
+
+    .stats-grid {
+        gap: 10px;
+    }
+
+    .stat-card {
+        padding: 14px;
+    }
+
+    .stat-card h2 {
+        font-size: 19px;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .form-group.full {
+        grid-column: auto;
+    }
+
+    .bar-row {
+        grid-template-columns: 65px 1fr 85px;
+        gap: 7px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+<!-- SIDEBAR -->
+
+<aside class="sidebar" id="sidebar">
+
+    <div class="logo">
+        🎀 Adopt Me
+        <span>TRADE MANAGER</span>
+    </div>
+
+    <div class="nav-title">MENU</div>
+
+    <button class="nav-btn active" data-page="dashboard">
+        <span class="nav-icon">⌂</span> Dashboard
+    </button>
+
+    <button class="nav-btn" data-page="transactions">
+        <span class="nav-icon">↔</span> Transactions
+    </button>
+
+    <button class="nav-btn" data-page="inventory">
+        <span class="nav-icon">🐾</span> Inventory
+    </button>
+
+    <button class="nav-btn" data-page="reports">
+        <span class="nav-icon">▥</span> Profit Reports
+    </button>
+
+    <div class="nav-title">MANAGEMENT</div>
+
+    <button class="nav-btn" data-page="add">
+        <span class="nav-icon">＋</span> Add Transaction
+    </button>
+
+    <div class="sidebar-bottom">
+        💗 Your personal trading manager.
+        <br>
+        Keep track of every trade!
+    </div>
+
+</aside>
+
+
+<!-- MAIN CONTENT -->
+
+<main class="main">
+
+    <div class="topbar">
+
+        <div style="display:flex;align-items:center;gap:12px;">
+            <button class="mobile-menu" id="menuBtn">☰</button>
+            <div>
+                <h1 id="pageTitle">Dashboard</h1>
+                <p>Welcome to your Adopt Me trading business!</p>
+            </div>
+        </div>
+
+        <div class="date-label" id="todayDate"></div>
+
+    </div>
+
+
+    <!-- DASHBOARD PAGE -->
+
+    <section class="page active" id="dashboard">
+
+        <div class="stats-grid">
+
+            <div class="stat-card">
+                <div class="stat-top">
+                    Total Profit
+                    <span class="stat-icon">💰</span>
+                </div>
+                <h2 class="green" id="dashProfit">₱0.00</h2>
+                <small>Realized earnings</small>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-top">
+                    Total Expenses
+                    <span class="stat-icon">💸</span>
+                </div>
+                <h2 id="dashExpenses">₱0.00</h2>
+                <small>Money spent on purchases</small>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-top">
+                    Total Sales
+                    <span class="stat-icon">🛍️</span>
+                </div>
+                <h2 id="dashSales">₱0.00</h2>
+                <small>Money received from sales</small>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-top">
+                    Net Cash Flow
+                    <span class="stat-icon">🏦</span>
+                </div>
+                <h2 id="dashCash">₱0.00</h2>
+                <small>Sales minus purchases</small>
+            </div>
+
+        </div>
+
+        <div class="stats-grid">
+
+            <div class="stat-card">
+                <div class="stat-top">
+                    Items in Inventory
+                    <span class="stat-icon">🐾</span>
+                </div>
+                <h2 id="dashInventory">0</h2>
+                <small>Available items</small>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-top">
+                    Transactions
+                    <span class="stat-icon">📋</span>
+                </div>
+                <h2 id="dashTransactions">0</h2>
+                <small>Recorded activities</small>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-top">
+                    Buying Transactions
+                    <span class="stat-icon">📥</span>
+                </div>
+                <h2 id="dashBuys">0</h2>
+                <small>Items purchased</small>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-top">
+                    Selling Transactions
+                    <span class="stat-icon">📤</span>
+                </div>
+                <h2 id="dashSells">0</h2>
+                <small>Items sold</small>
+            </div>
+
+        </div>
+
+        <div class="panel">
+
+            <div class="panel-header">
+                <h3>Recent Transactions</h3>
+                <button class="secondary-btn" onclick="showPage('transactions')">
+                    View All
+                </button>
+            </div>
+
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ITEM</th>
+                            <th>TYPE</th>
+                            <th>AMOUNT</th>
+                            <th>PROFIT</th>
+                            <th>DATE</th>
+                        </tr>
+                    </thead>
+                    <tbody id="recentTable"></tbody>
+                </table>
+            </div>
+
+            <div class="empty" id="recentEmpty">
+                No transactions recorded yet.
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- TRANSACTIONS PAGE -->
+
+    <section class="page" id="transactions">
+
+        <div class="page-heading">
+            <h2>Transaction History</h2>
+            <p>View all your buying, selling and trading activities.</p>
+        </div>
+
+        <div class="panel">
+
+            <div class="panel-header">
+                <h3>All Transactions</h3>
+                <button class="primary-btn" onclick="showPage('add')">
+                    + Add New
+                </button>
+            </div>
+
+            <div class="form-group">
+                <input type="text" id="searchTransaction"
+                placeholder="Search pet, item or transaction..."
+                oninput="renderTransactions()">
+            </div>
+
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ITEM / DETAILS</th>
+                            <th>TYPE</th>
+                            <th>AMOUNT</th>
+                            <th>PROFIT / LOSS</th>
+                            <th>DATE</th>
+                            <th>ACTION</th>
+                        </tr>
+                    </thead>
+                    <tbody id="transactionTable"></tbody>
+                </table>
+            </div>
+
+            <div class="empty" id="transactionEmpty">
+                No transactions found.
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- INVENTORY PAGE -->
+
+    <section class="page" id="inventory">
+
+        <div class="page-heading">
+            <h2>My Inventory 🐾</h2>
+            <p>Monitor the pets and items you currently own.</p>
+        </div>
+
+        <div class="stats-grid">
+
+            <div class="stat-card">
+                <div class="stat-top">Unique Items <span>📦</span></div>
+                <h2 id="uniqueItems">0</h2>
+                <small>Different pet or item names</small>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-top">Total Quantity <span>🐾</span></div>
+                <h2 id="totalQuantity">0</h2>
+                <small>Total items available</small>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-top">Inventory Cost <span>💗</span></div>
+                <h2 id="inventoryCost">₱0.00</h2>
+                <small>Remaining recorded purchase cost</small>
+            </div>
+
+        </div>
+
+        <div class="panel">
+
+            <div class="panel-header">
+                <h3>Available Pets and Items</h3>
+            </div>
+
+            <div class="inventory-grid" id="inventoryGrid"></div>
+
+            <div class="empty" id="inventoryEmpty">
+                Your inventory is empty. Buy or receive an item through a trade!
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- REPORTS PAGE -->
+
+    <section class="page" id="reports">
+
+        <div class="page-heading">
+            <h2>Profit Reports 📊</h2>
+            <p>Analyze your trading performance over time.</p>
+        </div>
+
+        <div class="report-controls">
+
+            <button class="filter-btn active" data-range="today">
+                Today
+            </button>
+
+            <button class="filter-btn" data-range="month">
+                This Month
+            </button>
+
+            <button class="filter-btn" data-range="year">
+                This Year
+            </button>
+
+            <button class="filter-btn" data-range="all">
+                All Time
+            </button>
+
+        </div>
+
+        <div class="stats-grid">
+
+            <div class="stat-card">
+                <div class="stat-top">Realized Profit <span>💰</span></div>
+                <h2 class="green" id="reportProfit">₱0.00</h2>
+                <small>Profit from sales and trades</small>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-top">Total Loss <span>📉</span></div>
+                <h2 class="red" id="reportLoss">₱0.00</h2>
+                <small>Loss from sales and trades</small>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-top">Expenses <span>💸</span></div>
+                <h2 id="reportExpenses">₱0.00</h2>
+                <small>Purchases during this period</small>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-top">Sales <span>🛍️</span></div>
+                <h2 id="reportSales">₱0.00</h2>
+                <small>Sales during this period</small>
+            </div>
+
+        </div>
+
+        <div class="panel">
+
+            <div class="panel-header">
+                <h3 id="reportTitle">Today's Performance</h3>
+            </div>
+
+            <p style="font-size:12px;color:var(--muted);">
+                Profit is calculated from completed sales and trades.
+                Buying alone is recorded as an expense, not realized profit.
+            </p>
+
+            <div class="report-bars" id="reportBars"></div>
+
+            <div class="empty" id="reportEmpty">
+                No activity for this period yet.
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ADD TRANSACTION PAGE -->
+
+    <section class="page" id="add">
+
+        <div class="page-heading">
+            <h2>Add Transaction ✨</h2>
+            <p>Record your latest Adopt Me business activity.</p>
+        </div>
+
+        <div class="panel">
+
+            <form id="transactionForm">
+
+                <div class="form-group">
+                    <label>Transaction Type</label>
+                    <select id="type" required>
+                        <option value="Buy">Buy / Purchase</option>
+                        <option value="Sell">Sell</option>
+                        <option value="Trade">Trade</option>
+                    </select>
+                </div>
+
+                <div id="buyFields">
+
+                    <div class="form-grid">
+
+                        <div class="form-group">
+                            <label>Pet / Item Name</label>
+                            <input id="buyItem" type="text"
+                            placeholder="Example: Frost Dragon">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Quantity</label>
+                            <input id="buyQty" type="number"
+                            min="1" step="1" value="1">
+                        </div>
+
+                        <div class="form-group full">
+                            <label>Total Purchase Price (₱)</label>
+                            <input id="buyAmount" type="number"
+                            min="0" step="0.01"
+                            placeholder="Example: 500">
+                        </div>
+
+                    </div>
+
+                    <p class="form-note">
+                        The purchase price will be divided by quantity
+                        to calculate the cost of each item.
+                    </p>
+
+                </div>
+
+
+                <div id="sellFields" hidden>
+
+                    <div class="form-grid">
+
+                        <div class="form-group">
+                            <label>Pet / Item to Sell</label>
+                            <select id="sellItem"></select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Quantity to Sell</label>
+                            <input id="sellQty" type="number"
+                            min="1" step="1" value="1">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Total Selling Price (₱)</label>
+                            <input id="sellAmount" type="number"
+                            min="0" step="0.01"
+                            placeholder="Example: 800">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Total Cost of Items Sold (₱)</label>
+                            <input id="sellCost" type="number"
+                            min="0" step="0.01"
+                            placeholder="Example: 500">
+                        </div>
+
+                    </div>
+
+                    <p class="form-note">
+                        The cost is based on what you originally paid
+                        for the items being sold. Enter the total cost
+                        for the quantity you are selling.
+                    </p>
+
+                </div>
+
+
+                <div id="tradeFields" hidden>
+
+                    <div class="form-grid">
+
+                        <div class="form-group">
+                            <label>Pet / Item You Give</label>
+                            <select id="giveItem"></select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Quantity Given</label>
+                            <input id="giveQty" type="number"
+                            min="1" step="1" value="1">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Value of Items Given (₱)</label>
+                            <input id="giveValue" type="number"
+                            min="0" step="0.01"
+                            placeholder="Example: 500">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Pet / Item You Receive</label>
+                            <input id="receiveItem" type="text"
+                            placeholder="Example: Owl">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Quantity Received</label>
+                            <input id="receiveQty" type="number"
+                            min="1" step="1" value="1">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Value of Items Received (₱)</label>
+                            <input id="receiveValue" type="number"
+                            min="0" step="0.01"
+                            placeholder="Example: 650">
+                        </div>
+
+                    </div>
+
+                    <p class="form-note">
+                        Trade profit = value received minus value given.
+                        Values are your own estimated PHP values, not official
+                        Adopt Me values.
+                    </p>
+
+                </div>
+
+
+                <div class="form-grid">
+
+                    <div class="form-group">
+                        <label>Transaction Date</label>
+                        <input id="transactionDate" type="date" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Notes (Optional)</label>
+                        <input id="notes" type="text"
+                        placeholder="Example: FR, NFR, MFR">
+                    </div>
+
+                </div>
+
+                <button type="submit" class="primary-btn"
+                style="width:100%;margin-top:12px;">
+                    Save Transaction 💗
+                </button>
+
+            </form>
+
+        </div>
+
+    </section>
+
+</main>
+</div>
+
+<div class="toast" id="toast"></div>
+
+
+<script>
+
+// ==================================
+// ADOPT ME TRADE MANAGER
+// ==================================
+
+// PHP currency formatter
+
+function money(amount) {
+    return new Intl.NumberFormat("en-PH", {
+        style: "currency",
+        currency: "PHP"
+    }).format(amount);
+}
+
+
+// LOAD SAVED DATA
+
+let transactions = JSON.parse(
+    localStorage.getItem("adoptTradeTransactions") || "[]"
+);
+
+let inventory = JSON.parse(
+    localStorage.getItem("adoptTradeInventory") || "{}"
+);
+
+let reportRange = "today";
+
+
+// SAVE DATA
+
+function saveData() {
+
+    localStorage.setItem(
+        "adoptTradeTransactions",
+        JSON.stringify(transactions)
+    );
+
+    localStorage.setItem(
+        "adoptTradeInventory",
+        JSON.stringify(inventory)
+    );
+
+}
+
+
+// DATE SETUP
+
+function localDate() {
+
+    let now = new Date();
+
+    let year = now.getFullYear();
+    let month = String(now.getMonth() + 1).padStart(2, "0");
+    let day = String(now.getDate()).padStart(2, "0");
+
+    return `${year}-${month}-${day}`;
+
+}
+
+document.getElementById("transactionDate").value = localDate();
+
+document.getElementById("todayDate").textContent =
+    new Date().toLocaleDateString("en-PH", {
+        weekday: "short",
+        year: "numeric",
+        month: "short",
+        day: "numeric"
+    });
+
+
+// TOAST MESSAGE
+
+function toast(message) {
+
+    let box = document.getElementById("toast");
+
+    box.textContent = message;
+    box.classList.add("show");
+
+    setTimeout(function() {
+        box.classList.remove("show");
+    }, 2500);
+
+}
+
+
+// NAVIGATION
+
+function showPage(page) {
+
+    document.querySelectorAll(".page").forEach(function(section) {
+        section.classList.remove("active");
+    });
+
+    document.getElementById(page).classList.add("active");
+
+    document.querySelectorAll(".nav-btn").forEach(function(button) {
+        button.classList.toggle(
+            "active",
+            button.dataset.page === page
+        );
+    });
+
+    let titles = {
+        dashboard: "Dashboard",
+        transactions: "Transactions",
+        inventory: "My Inventory",
+        reports: "Profit Reports",
+        add: "Add Transaction"
+    };
+
+    document.getElementById("pageTitle").textContent = titles[page];
+
+    document.getElementById("sidebar").classList.remove("open");
+
+    if (page === "reports") updateReports();
+    if (page === "inventory") updateInventory();
+    if (page === "transactions") renderTransactions();
+
+}
+
+document.querySelectorAll(".nav-btn").forEach(function(button) {
+
+    button.addEventListener("click", function() {
+        showPage(button.dataset.page);
+    });
+
+});
+
+document.getElementById("menuBtn").addEventListener("click", function() {
+    document.getElementById("sidebar").classList.toggle("open");
+});
+
+
+// TRANSACTION TYPE SWITCHING
+
+let typeSelect = document.getElementById("type");
+
+function updateFormFields() {
+
+    let type = typeSelect.value;
+
+    document.getElementById("buyFields").hidden = type !== "Buy";
+    document.getElementById("sellFields").hidden = type !== "Sell";
+    document.getElementById("tradeFields").hidden = type !== "Trade";
+
+    updateItemOptions();
+
+}
+
+typeSelect.addEventListener("change", updateFormFields);
+
+
+// INVENTORY ITEM OPTIONS
+
+function updateItemOptions() {
+
+    let items = Object.keys(inventory).filter(function(name) {
+        return inventory[name].qty > 0;
+    });
+
+    ["sellItem", "giveItem"].forEach(function(id) {
+
+        let select = document.getElementById(id);
+
+        let previous = select.value;
+
+        select.innerHTML = "";
+
+        items.forEach(function(name) {
+
+            let option = document.createElement("option");
+
+            option.value = name;
+            option.textContent =
+                name + " (" + inventory[name].qty + " available)";
+
+            select.appendChild(option);
+
+        });
+
+        if (items.includes(previous)) {
+            select.value = previous;
+        }
+
+    });
+
+}
+
+
+// INVENTORY FUNCTIONS
+
+function changeInventory(name, quantity, cost) {
+
+    name = name.trim();
+
+    if (!name) return;
+
+    if (!inventory[name]) {
+        inventory[name] = {
+            qty: 0,
+            cost: 0
+        };
+    }
+
+    inventory[name].qty += quantity;
+    inventory[name].cost += cost;
+
+    // Avoid tiny floating point leftovers
+
+    inventory[name].cost =
+        Math.round(inventory[name].cost * 100) / 100;
+
+    if (inventory[name].qty <= 0) {
+        delete inventory[name];
+    }
+
+}
+
+
+// ADD TRANSACTION
+
+document.getElementById("transactionForm")
+.addEventListener("submit", function(event) {
+
+    event.preventDefault();
+
+    let type = typeSelect.value;
+
+    let date = document.getElementById("transactionDate").value;
+
+    let notes = document.getElementById("notes").value.trim();
+
+    let record = {
+        id: Date.now() + Math.random(),
+        type: type,
+        date: date,
+        notes: notes,
+        profit: 0,
+        expense: 0,
+        sales: 0,
+        details: "",
+        deltas: []
+    };
+
+
+    // BUY
+
+    if (type === "Buy") {
+
+        let name = document.getElementById("buyItem").value.trim();
+
+        let qty = Number(document.getElementById("buyQty").value);
+
+        let amount = Number(document.getElementById("buyAmount").value);
+
+        if (!name || !Number.isInteger(qty) || qty < 1 ||
+            !Number.isFinite(amount) || amount < 0 ||
+            document.getElementById("buyAmount").value === "") {
+
+            alert("Please enter valid purchase information.");
+            return;
+        }
+
+        record.item = name;
+        record.amount = amount;
+        record.expense = amount;
+        record.details = `Bought ${qty} × ${name}`;
+
+        record.deltas.push({
+            name: name,
+            qty: qty,
+            cost: amount
+        });
+
+    }
+
+
+    // SELL
+
+    if (type === "Sell") {
+
+        let name = document.getElementById("sellItem").value;
+
+        let qty = Number(document.getElementById("sellQty").value);
+
+        let amount = Number(document.getElementById("sellAmount").value);
+
+        let cost = Number(document.getElementById("sellCost").value);
+
+        if (!name || !Number.isInteger(qty) || qty < 1 ||
+            !Number.isFinite(amount) || amount < 0 ||
+            !Number.isFinite(cost) || cost < 0 ||
+            document.getElementById("sellAmount").value === "" ||
+            document.getElementById("sellCost").value === "") {
+
+            alert("Please enter valid selling information.");
+            return;
+        }
+
+        if (!inventory[name] || inventory[name].qty < qty) {
+            alert("You do not have enough items in your inventory.");
+            return;
+        }
+
+        let availableCost = inventory[name].cost;
+
+        let costPerItem = availableCost / inventory[name].qty;
+
+        let actualCost = Math.round(costPerItem * qty * 100) / 100;
+
+        if (Math.abs(cost - actualCost) > 0.02) {
+            alert(
+                "The cost of items sold should be approximately " +
+                money(actualCost) +
+                " based on your recorded inventory."
+            );
+            return;
+        }
+
+        record.item = name;
+        record.amount = amount;
+        record.sales = amount;
+        record.profit = amount - actualCost;
+        record.details = `Sold ${qty} × ${name}`;
+
+        record.deltas.push({
+            name: name,
+            qty: -qty,
+            cost: -actualCost
+        });
+
+    }
+
+
+    // TRADE
+
+    if (type === "Trade") {
+
+        let give = document.getElementById("giveItem").value;
+
+        let giveQty = Number(document.getElementById("giveQty").value);
+
+        let giveValue = Number(document.getElementById("giveValue").value);
+
+        let receive = document.getElementById("receiveItem").value.trim();
+
+        let receiveQty = Number(document.getElementById("receiveQty").value);
+
+        let receiveValue = Number(document.getElementById("receiveValue").value);
+
+        if (!give || !receive || !Number.isInteger(giveQty) ||
+            giveQty < 1 || !Number.isInteger(receiveQty) ||
+            receiveQty < 1 || !Number.isFinite(giveValue) ||
+            !Number.isFinite(receiveValue) || giveValue < 0 ||
+            receiveValue < 0 ||
+            document.getElementById("giveValue").value === "" ||
+            document.getElementById("receiveValue").value === "") {
+
+            alert("Please enter valid trade information.");
+            return;
+        }
+
+        if (!inventory[give] || inventory[give].qty < giveQty) {
+            alert("You do not have enough items to trade.");
+            return;
+        }
+
+        let oldCost = inventory[give].cost;
+        let costOfGiven = oldCost / inventory[give].qty * giveQty;
+
+        record.item = give + " → " + receive;
+        record.amount = receiveValue;
+        record.profit = receiveValue - giveValue;
+        record.details =
+            `Gave ${giveQty} × ${give} / Received ${receiveQty} × ${receive}`;
+
+        record.deltas.push({
+            name: give,
+            qty: -giveQty,
+            cost: -costOfGiven
+        });
+
+        record.deltas.push({
+            name: receive,
+            qty: receiveQty,
+            cost: receiveValue
+        });
+
+    }
+
+
+    // APPLY INVENTORY CHANGES
+
+    record.deltas.forEach(function(delta) {
+
+        changeInventory(
+            delta.name,
+            delta.qty,
+            delta.cost
+        );
+
+    });
+
+
+    // SAVE RECORD
+
+    transactions.unshift(record);
+
+    saveData();
+
+    document.getElementById("transactionForm").reset();
+
+    document.getElementById("transactionDate").value = localDate();
+
+    updateFormFields();
+    refreshAll();
+
+    toast("Transaction saved successfully! 💗");
+
+    showPage("dashboard");
+
+});
+
+
+// TRANSACTION TABLE
+
+function typeBadge(type) {
+
+    let css = {
+        Buy: "badge-buy",
+        Sell: "badge-sell",
+        Trade: "badge-trade"
+    };
+
+    return `<span class="badge ${css[type]}">${type}</span>`;
+
+}
+
+
+function profitHTML(profit) {
+
+    let color = profit > 0 ? "green" :
+                profit < 0 ? "red" : "";
+
+    let sign = profit > 0 ? "+" : "";
+
+    return `<span class="${color}">${sign}${money(profit)}</span>`;
+
+}
+
+
+function renderTransactions() {
+
+    let table = document.getElementById("transactionTable");
+
+    let search = document.getElementById("searchTransaction")
+        .value.toLowerCase();
+
+    table.innerHTML = "";
+
+    let filtered = transactions.filter(function(t) {
+
+        return (
+            t.details.toLowerCase().includes(search) ||
+            t.type.toLowerCase().includes(search) ||
+            (t.notes || "").toLowerCase().includes(search)
+        );
+
+    });
+
+    filtered.forEach(function(t) {
+
+        let row = document.createElement("tr");
+
+        let cells = [
+            t.details + (t.notes ? " | " + t.notes : ""),
+            t.type,
+            money(t.type === "Buy" ? t.expense :
+                  t.type === "Sell" ? t.sales : t.amount),
+            (t.type === "Buy" ? "—" : null),
+            t.date
+        ];
+
+        let first = document.createElement("td");
+        first.textContent = cells[0];
+        row.appendChild(first);
+
+        let type = document.createElement("td");
+        type.innerHTML = typeBadge(t.type);
+        row.appendChild(type);
+
+        let amount = document.createElement("td");
+        amount.textContent = cells[2];
+        row.appendChild(amount);
+
+        let profit = document.createElement("td");
+
+        if (t.type === "Buy") {
+            profit.textContent = "—";
+        } else {
+            profit.innerHTML = profitHTML(t.profit);
+        }
+
+        row.appendChild(profit);
+
+        let date = document.createElement("td");
+        date.textContent = t.date;
+        row.appendChild(date);
+
+        let action = document.createElement("td");
+
+        let del = document.createElement("button");
+        del.className = "danger-btn";
+        del.textContent = "Delete";
+
+        del.addEventListener("click", function() {
+            deleteTransaction(t.id);
+        });
+
+        action.appendChild(del);
+        row.appendChild(action);
+
+        table.appendChild(row);
+
+    });
+
+    document.getElementById("transactionEmpty").style.display =
+        filtered.length ? "none" : "block";
+
+}
+
+
+// DELETE AND REVERSE INVENTORY
+
+function deleteTransaction(id) {
+
+    if (!confirm("Delete this transaction? Inventory will also be updated.")) {
+        return;
+    }
+
+    let t = transactions.find(function(item) {
+        return item.id === id;
+    });
+
+    if (!t) return;
+
+    t.deltas.forEach(function(delta) {
+
+        changeInventory(
+            delta.name,
+            -delta.qty,
+            -delta.cost
+        );
+
+    });
+
+    transactions = transactions.filter(function(item) {
+        return item.id !== id;
+    });
+
+    saveData();
+
+    refreshAll();
+
+    toast("Transaction deleted.");
+
+}
+
+
+// DASHBOARD
+
+function updateDashboard() {
+
+    let profit = 0;
+    let expenses = 0;
+    let sales = 0;
+    let buys = 0;
+    let sells = 0;
+    let cash = 0;
+
+    transactions.forEach(function(t) {
+
+        profit += t.profit;
+        expenses += t.expense;
+        sales += t.sales;
+
+        if (t.type === "Buy") buys++;
+        if (t.type === "Sell") sells++;
+
+    });
+
+    cash = sales - expenses;
+
+    let quantity = Object.values(inventory).reduce(
+        (sum, item) => sum + item.qty, 0
+    );
+
+    document.getElementById("dashProfit").textContent = money(profit);
+    document.getElementById("dashExpenses").textContent = money(expenses);
+    document.getElementById("dashSales").textContent = money(sales);
+    document.getElementById("dashCash").textContent = money(cash);
+
+    document.getElementById("dashCash").className =
+        cash >= 0 ? "green" : "red";
+
+    document.getElementById("dashInventory").textContent = quantity;
+    document.getElementById("dashTransactions").textContent = transactions.length;
+    document.getElementById("dashBuys").textContent = buys;
+    document.getElementById("dashSells").textContent = sells;
+
+    let recent = document.getElementById("recentTable");
+
+    recent.innerHTML = "";
+
+    transactions.slice(0, 5).forEach(function(t) {
+
+        let row = document.createElement("tr");
+
+        let item = document.createElement("td");
+        item.textContent = t.details;
+
+        let type = document.createElement("td");
+        type.innerHTML = typeBadge(t.type);
+
+        let amount = document.createElement("td");
+        amount.textContent = money(
+            t.type === "Buy" ? t.expense :
+            t.type === "Sell" ? t.sales : t.amount
+        );
+
+        let profitCell = document.createElement("td");
+        profitCell.innerHTML = t.type === "Buy"
+            ? "—" : profitHTML(t.profit);
+
+        let date = document.createElement("td");
+        date.textContent = t.date;
+
+        [item, type, amount, profitCell, date].forEach(function(cell) {
+            row.appendChild(cell);
+        });
+
+        recent.appendChild(row);
+
+    });
+
+    document.getElementById("recentEmpty").style.display =
+        transactions.length ? "none" : "block";
+
+}
+
+
+// INVENTORY PAGE
+
+function updateInventory() {
+
+    let grid = document.getElementById("inventoryGrid");
+
+    grid.innerHTML = "";
+
+    let items = Object.entries(inventory).filter(function(entry) {
+        return entry[1].qty > 0;
+    });
+
+    let totalQty = 0;
+    let totalCost = 0;
+
+    items.forEach(function([name, data]) {
+
+        totalQty += data.qty;
+        totalCost += data.cost;
+
+        let card = document.createElement("div");
+
+        card.className = "inventory-card";
+
+        let icon = document.createElement("div");
+        icon.className = "pet-icon";
+        icon.textContent = "🐾";
+
+        let title = document.createElement("h3");
+        title.textContent = name;
+
+        let qty = document.createElement("p");
+        qty.textContent = "Quantity: " + data.qty;
+
+        let cost = document.createElement("p");
+        cost.textContent = "Recorded cost: " + money(data.cost);
+
+        let unit = document.createElement("p");
+        unit.textContent = "Average cost: " +
+            money(data.cost / data.qty);
+
+        card.append(icon, title, qty, cost, unit);
+
+        grid.appendChild(card);
+
+    });
+
+    document.getElementById("uniqueItems").textContent = items.length;
+    document.getElementById("totalQuantity").textContent = totalQty;
+    document.getElementById("inventoryCost").textContent = money(totalCost);
+
+    document.getElementById("inventoryEmpty").style.display =
+        items.length ? "none" : "block";
+
+    updateItemOptions();
+
+}
+
+
+// REPORT DATE FILTER
+
+function matchesRange(date, range) {
+
+    let today = localDate();
+
+    if (range === "today") {
+        return date === today;
+    }
+
+    if (range === "month") {
+        return date.slice(0, 7) === today.slice(0, 7);
+    }
+
+    if (range === "year") {
+        return date.slice(0, 4) === today.slice(0, 4);
+    }
+
+    return true;
+
+}
+
+
+// REPORTS
+
+function updateReports() {
+
+    let filtered = transactions.filter(function(t) {
+        return matchesRange(t.date, reportRange);
+    });
+
+    let profit = 0;
+    let loss = 0;
+    let expenses = 0;
+    let sales = 0;
+
+    filtered.forEach(function(t) {
+
+        if (t.profit > 0) profit += t.profit;
+        if (t.profit < 0) loss += Math.abs(t.profit);
+
+        expenses += t.expense;
+        sales += t.sales;
+
+    });
+
+    document.getElementById("reportProfit").textContent = money(profit);
+    document.getElementById("reportLoss").textContent = money(loss);
+    document.getElementById("reportExpenses").textContent = money(expenses);
+    document.getElementById("reportSales").textContent = money(sales);
+
+    let titles = {
+        today: "Today's Performance",
+        month: "This Month's Performance",
+        year: "This Year's Performance",
+        all: "All-Time Performance"
+    };
+
+    document.getElementById("reportTitle").textContent =
+        titles[reportRange];
+
+    let bars = [
+        { label: "Profit", value: profit },
+        { label: "Loss", value: loss },
+        { label: "Expenses", value: expenses },
+        { label: "Sales", value: sales }
+    ];
+
+    let max = Math.max(...bars.map(b => b.value), 1);
+
+    let container = document.getElementById("reportBars");
+
+    container.innerHTML = "";
+
+    bars.forEach(function(bar) {
+
+        let row = document.createElement("div");
+        row.className = "bar-row";
+
+        let label = document.createElement("span");
+        label.textContent = bar.label;
+
+        let track = document.createElement("div");
+        track.className = "bar-track";
+
+        let fill = document.createElement("div");
+        fill.className = "bar-fill";
+
+        fill.style.width = (bar.value / max * 100) + "%";
+
+        track.appendChild(fill);
+
+        let value = document.createElement("span");
+        value.className = "bar-value";
+        value.textContent = money(bar.value);
+
+        row.append(label, track, value);
+
+        container.appendChild(row);
+
+    });
+
+    document.getElementById("reportEmpty").style.display =
+        filtered.length ? "none" : "block";
+
+}
+
+
+// REPORT BUTTONS
+
+document.querySelectorAll(".filter-btn").forEach(function(button) {
+
+    button.addEventListener("click", function() {
+
+        reportRange = button.dataset.range;
+
+        document.querySelectorAll(".filter-btn").forEach(function(btn) {
+            btn.classList.remove("active");
+        });
+
+        button.classList.add("active");
+
+        updateReports();
+
+    });
+
+});
+
+
+// REFRESH EVERYTHING
+
+function refreshAll() {
+
+    updateDashboard();
+    renderTransactions();
+    updateInventory();
+    updateReports();
+
+}
+
+
+// INITIALIZE APP
+
+updateFormFields();
+refreshAll();
+
+</script>
+
+</body>
+</html>
